@@ -3,26 +3,27 @@ message “Have  a good Day”.
 
 
 %{
-#include<stdio.h>
-#include "y.tab.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int yylex();
+void yyerror(const char *s);
 %}
 
 %token HELLO
 
 %%
 begin:
-     |msg
+     | msg
      ;
-msg: HELLO {printf("Have a good day");}
-   
+msg: HELLO { printf("Have a good day\n"); }
 %%
 
-int main()
-{
+void yyerror(const char *s) {
+   
+}
+
+int main() {
    yyparse();
    return 0;
-}
-void yyerror(const char *s)
-{
-   printf("Error: %s\n", s);
 }

@@ -3,11 +3,13 @@
 %{
 #include "y.tab.h"
 %}
+
 %%
-hello {return HELLO;}
-.     { }
+hello { return HELLO; }
+.     {  }
 \n    { }
 %%
-int yywrap(){
-return 1;
+
+int yywrap() {
+   return 1;
 }
