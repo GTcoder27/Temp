@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-// Selection Sort = O(n^2)
+// Selection Sort = O(n^2)    
+ // select smallest element and swap
 
 
 int main() {

@@ -1,57 +1,73 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Function to color the graph
-void color(vector<vector<int>>& nodes) {
-    int n = nodes.size();
-    vector<char> colors(n, ' '); // ' ' means no color assigned yet
-    vector<char> availableColors = {'R', 'G', 'B'}; // Available colors
-
-    // Assign colors to each vertex
-    for (int i = 0; i < n; i++) {
-        set<char> usedColors;
-
-        // Check colors of adjacent vertices
-        for (int neighbor : nodes[i]) {
-            if (colors[neighbor] != ' ') {
-                usedColors.insert(colors[neighbor]);
-            }
+// Function to check if it's safe to color a vertex
+bool isSafe(int node, vector<vector<int>>& graph, vector<int>& colors, int color) {
+    for (int neighbor : graph[node]) {
+        if (colors[neighbor] == color) {
+            return false; // Adjacent vertex has the same color
         }
+    }
+    return true;
+}
 
-        // Find the first color not used by neighbors
-        for (char c : availableColors) {
-            if (usedColors.find(c) == usedColors.end()) {
-                colors[i] = c;
-                break;
+// Backtracking function to solve the graph coloring problem
+bool graphColoringUtil(vector<vector<int>>& graph, vector<int>& colors, int m, int node) {
+    int n = graph.size();
+    if (node == n) {
+        return true; // All vertices are colored
+    }
+
+    for (int c = 1; c <= m; c++) {
+        if (isSafe(node, graph, colors, c)) {
+            colors[node] = c; // Assign color
+            if (graphColoringUtil(graph, colors, m, node + 1)) {
+                return true;
             }
+            colors[node] = 0; // Backtrack
         }
     }
 
-    // Output the result
-    cout << "Colors assigned to each node:" << endl;
-    for (int i = 0; i < n; i++) {
-        cout << "Node " << i << ": Color " << colors[i] << endl;
+    return false;
+}
+
+// Function to solve the graph coloring problem
+bool graphColoring(vector<vector<int>>& graph, int m) {
+    int n = graph.size();
+    vector<int> colors(n, 0); // 0 means no color assigned yet
+
+    if (graphColoringUtil(graph, colors, m, 0)) {
+        cout << "Solution Exists: Following are the assigned colors:" << endl;
+        for (int i = 0; i < n; i++) {
+            cout << "Vertex " << i << " -> Color " << colors[i] << endl;
+        }
+        return true;
+    } else {
+        cout << "No solution exists with " << m << " colors." << endl;
+        return false;
     }
 }
 
 int main() {
-    int n, e;
-    cout << "Enter the number of nodes: ";
+    int n, e, m;
+    cout << "Enter the number of vertices: ";
     cin >> n;
     cout << "Enter the number of edges: ";
     cin >> e;
 
-    vector<vector<int>> nodes(n);
-
+    vector<vector<int>> graph(n);
     cout << "Enter the edges (u v):" << endl;
     for (int i = 0; i < e; i++) {
         int u, v;
         cin >> u >> v;
-        nodes[u].push_back(v);
-        nodes[v].push_back(u); // Assuming the graph is undirected
+        graph[u].push_back(v);
+        graph[v].push_back(u); // Undirected graph
     }
 
-    color(nodes);
+    cout << "Enter the number of colors: ";
+    cin >> m;
+
+    graphColoring(graph, m);
 
     return 0;
 }

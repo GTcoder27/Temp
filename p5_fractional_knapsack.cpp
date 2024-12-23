@@ -4,7 +4,7 @@ using namespace std;
 int main() {
     int max_w = 90;
     int price = 0;
-    vector<pair<int,int>> p;
+    vector<pair<int,int>> p;   // price , no. of items
     p.push_back({100,20});  // 5 per 1
     p.push_back({60,10});  // 6 per 1
     p.push_back({100,50}); // 2 per 1

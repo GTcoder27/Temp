@@ -2,44 +2,11 @@
 using namespace std;
 // Traveling Salesmen's problem
 
-// not completed yet
-
-// int dist[N][N];
-
-// int main()
-// {   
-//     int n,m;
-//     cin>>n>>m;
-//     for(int i=1;i<=n;i++){
-//         for(int j=0;j<=n;j++){
-//             int x,y,wt;
-//             cin>>x>>y>>wt;
-//             dist[x][y] = wt;
-//         }
-//     }
-    
-
-//     return 0;
-// }
-
-
-// input
-// 0 10 15 20
-
-#include <iostream>
-#include <vector>
-#include <climits>
-#include <cmath>
-
-using namespace std;
-
 const int INF = INT_MAX;
 
-// Function to solve TSP using DP with bitmasking
 int tsp(int mask, int pos, const vector<vector<int>>& dist, vector<vector<int>>& dp) {
     int n = dist.size();
     
-    // Base case: All cities visited
     if (mask == (1 << n) - 1) {
         return dist[pos][0]; // Return cost to go back to the starting city
     }
@@ -51,7 +18,6 @@ int tsp(int mask, int pos, const vector<vector<int>>& dist, vector<vector<int>>&
 
     int minCost = INF;
 
-    // Try visiting all unvisited cities
     for (int city = 0; city < n; city++) {
         if ((mask & (1 << city)) == 0) { // City not visited yet
             int newCost = dist[pos][city] + tsp(mask | (1 << city), city, dist, dp);
@@ -86,3 +52,11 @@ int main() {
 
     return 0;
 }
+
+
+// input 
+// 4
+// 0 10 15 20
+// 10 0 35 25
+// 15 35 0 30
+// 20 25 30 0
